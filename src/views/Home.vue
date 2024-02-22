@@ -1,23 +1,32 @@
 <script setup>
-import { watch } from 'vue';
+import { ref, watch } from 'vue';
 import PostItem from '../components/PostItem.vue';
 import TopBar from '../components/TopBar.vue';
 
 const props = defineProps(["bearerToken"])
 
-async function fetchHot(token) {
-    const res = await fetch("https://oauth.reddit.com/r/test/hot", { headers: { 'Authorization': 'Bearer ' + token } })
+const articles = ref()
+
+async function fetchHot(token, subreddit) {
+    const res = await fetch(`https://oauth.reddit.com/${subreddit}/hot`, { headers: { 'Authorization': 'Bearer ' + token } })
     const data = await res.json()
-    console.log(data)
+    articles.value = data.data.children.map(article => {
+        return {
+            subreddit: article.data.subreddit_name_prefixed,
+            postTime: article.data.created,
+            title: article.data.title,
+            body: article.data.selftext,
+        }
+    })
 }
 
 if (props.bearerToken) {
-    fetchHot(props.bearerToken)
+    fetchHot(props.bearerToken, "r/Jokes")
 }
 
 watch(() => props.bearerToken,
     token => {
-        fetchHot(token)
+        fetchHot(token, "r/Jokes")
     })
 
 
@@ -26,11 +35,8 @@ watch(() => props.bearerToken,
 <template>
     <TopBar />
     <div class=content>
-        <div class=postItems>
-            <PostItem />
-            <PostItem />
-            <PostItem />
-            <p>{{ props.bearerToken }}</p>
+        <div class=postItems v-for="article in articles">
+            <PostItem v-bind="article" />
         </div>
     </div>
 </template>
@@ -38,7 +44,8 @@ watch(() => props.bearerToken,
 <style scoped>
 .content {
     margin: auto;
-    background-color: aqua;
+    padding: 1em 0;
+    background-color: gainsboro;
     width: 50%
 }
 </style>

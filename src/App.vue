@@ -9,7 +9,6 @@ const route = useRoute()
 const bearerToken = ref()
 
 const token = localStorage.getItem('bearerToken');
-console.log(token)
 if (token) {
   bearerToken.value = token
 }
