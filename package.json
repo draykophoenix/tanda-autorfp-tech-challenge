@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "base-64": "^1.0.0",
+    "dotenv": "^16.4.5",
     "vue": "^3.4.15",
     "vue-router": "^4.3.0"
   },
