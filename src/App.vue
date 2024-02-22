@@ -6,6 +6,15 @@ import { retrieveToken } from '../src/utils/redditAuth';
 
 const route = useRoute()
 
+const bearerToken = ref()
+
+const token = localStorage.getItem('bearerToken');
+console.log(token)
+if (token) {
+  bearerToken.value = token
+}
+
+
 // Slight hack, same authState accross all sessions.
 var authState = localStorage.getItem('authState');
 if (!authState) {
@@ -18,14 +27,15 @@ if (!authState) {
 watch(
   () => route.query,
   async query => {
-    if (query.code) {
-      if (query.state === authState) {
-        const bearerToken = await retrieveToken(query.code)
+    // If the user has been redirected from Reddit's OAuth page, and the state is correct
+    if (query.code && query.state === authState) {
+      const resToken = await retrieveToken(query.code)
 
+      // Only updates the token on first retrieval
+      if (resToken) {
+        bearerToken.value = resToken
         // Probably not secure
-        localStorage.setItem('bearerToken', bearerToken);
-      } else {
-        console.log("Your tokens' a broken'")
+        localStorage.setItem('bearerToken', bearerToken.value);
       }
     }
   }
@@ -34,5 +44,5 @@ watch(
 </script>
 
 <template>
-  <Home />
+  <Home :bearerToken=bearerToken />
 </template>

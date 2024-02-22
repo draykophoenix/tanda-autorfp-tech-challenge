@@ -4,8 +4,7 @@ import { createAuthorizeURL } from '../utils/redditAuth';
 
 // Slight hack, same authState accross all sessions.
 var authState = localStorage.getItem('authState');
-
-const authorizeURL = ref(createAuthorizeURL(authState));
+const authorizeURL = createAuthorizeURL(authState);
 
 </script>
 <template>
