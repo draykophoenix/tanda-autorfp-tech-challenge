@@ -2,12 +2,12 @@ import { createApp } from "vue";
 import "./style.css";
 import App from "./App.vue";
 import Home from "./views/Home.vue";
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [{ path: "/", component: Home }];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 

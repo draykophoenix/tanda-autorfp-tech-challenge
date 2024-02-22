@@ -6,12 +6,12 @@ import TitleBar from '../components/TitleBar.vue';
 </script>
 
 <template>
-    <TitleBar/>
+    <TitleBar />
     <div class=content>
         <div class=postItems>
-            <PostItem/>
-            <PostItem/>
-            <PostItem/>
+            <PostItem />
+            <PostItem />
+            <PostItem />
         </div>
     </div>
 </template>
@@ -20,6 +20,6 @@ import TitleBar from '../components/TitleBar.vue';
 .content {
     margin: auto;
     background-color: aqua;
-    width:50%
+    width: 50%
 }
 </style>

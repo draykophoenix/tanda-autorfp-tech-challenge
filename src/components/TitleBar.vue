@@ -1,23 +1,28 @@
 <script setup>
 import { ref } from 'vue'
+import { createAuthorizeURL } from '../utils/redditAuth';
+
+// Slight hack, same authState accross all sessions.
+var authState = localStorage.getItem('authState');
+if (!authState) {
+  const newState = Math.floor(Math.random() * 10000);
+  localStorage.setItem('authState', newState);
+  console.log(`New authState set:${newState}`)
+  authState = newState;
+}
+
+const authorizeURL = ref(createAuthorizeURL(authState));
 
 </script>
 <template>
-    <header>
-        <h1>Reddit 2</h1>
-        <div id="auth">
-          <a href="https://www.reddit.com/api/v1/authorize?
-client_id=h4S3l2XkCCXeiqjERXO-5g
-&response_type=code
-&state=MY_STATE_STRING
-&redirect_uri=http://35.197.175.96/
-&duration=temporary
-&scope=identity">
-            <button>Authenticate</button>
-          </a>
-        </div>
-        <button @click="console.log(this.$route.props)">Console Log</button>
-    </header>
+  <header>
+    <h1>Reddit 2</h1>
+    <div id="auth">
+      <a :href=authorizeURL>
+        <button>Authenticate</button>
+      </a>
+    </div>
+  </header>
 </template>
 
 <style scoped>
