@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import { createAuthorizeURL } from '../utils/redditAuth';
 
+const props = defineProps(["isAuth"])
+
 // Slight hack, same authState accross all sessions.
 var authState = localStorage.getItem('authState');
 const authorizeURL = createAuthorizeURL(authState);
@@ -16,9 +18,9 @@ function clear() {
   <header>
     <h3>Reddit 2</h3>
     <div id="auth">
-      <q-btn class="btn" color="white" text-color="black" label="Logout" @click="clear()" />
+      <q-btn class="btn" color="negative" text-color="white" label="Logout" @click="clear()" v-if="props.isAuth" />
       <a :href=authorizeURL>
-        <q-btn color="white" text-color="black" label="Authenticate" />
+        <q-btn color="positive" text-color="white" label="Authenticate" v-if="!props.isAuth" />
       </a>
     </div>
   </header>

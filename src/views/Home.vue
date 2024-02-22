@@ -1,11 +1,15 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import PostItem from '../components/PostItem.vue';
 import TopBar from '../components/TopBar.vue';
 
 const props = defineProps(["bearerToken"])
 
 const articles = ref()
+
+const isAuth = computed(() => {
+    return !!props.bearerToken
+})
 
 async function fetchHot(token, subreddit) {
     const res = await fetch(`https://oauth.reddit.com/${subreddit}/hot`, { headers: { 'Authorization': 'Bearer ' + token } })
@@ -33,7 +37,7 @@ watch(() => props.bearerToken,
 </script>
 
 <template>
-    <TopBar />
+    <TopBar :isAuth=isAuth />
     <div class=content>
         <div class=postItems v-for="article in articles">
             <PostItem v-bind="article" />
