@@ -1,1 +1,1 @@
-Google Cloud IP: http://35.197.175.96
+Google Cloud IP: http://35.244.83.92

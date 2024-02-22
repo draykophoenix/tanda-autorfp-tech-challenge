@@ -16,6 +16,7 @@ client_id=h4S3l2XkCCXeiqjERXO-5g
             <button>Authenticate</button>
           </a>
         </div>
+        <button @click="console.log(this.$route.props)">Console Log</button>
     </header>
 </template>
 
