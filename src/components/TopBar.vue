@@ -6,13 +6,19 @@ import { createAuthorizeURL } from '../utils/redditAuth';
 var authState = localStorage.getItem('authState');
 const authorizeURL = createAuthorizeURL(authState);
 
+function clear() {
+  localStorage.clear()
+  location.reload()
+}
+
 </script>
 <template>
   <header>
-    <h1>Reddit 2</h1>
+    <h3>Reddit 2</h3>
     <div id="auth">
+      <q-btn class="btn" color="white" text-color="black" label="Logout" @click="clear()" />
       <a :href=authorizeURL>
-        <button>Authenticate</button>
+        <q-btn color="white" text-color="black" label="Authenticate" />
       </a>
     </div>
   </header>
@@ -23,5 +29,10 @@ header {
   margin: 0 2em;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.btn {
+  margin: 1em;
 }
 </style>
